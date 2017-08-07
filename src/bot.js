@@ -2,7 +2,7 @@ const recastai = require('recastai').default
 const client = new recastai(process.env.REQUEST_TOKEN)
 const request = require('request')
 
-const weatherApiKey = "&appid=" + process.env.WEATHER_TOKEN
+const weatherApiKey = "&appid=a5182a087aa8225f7a9ce1c28acca2fb"
 const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 
 const replyMessage = (message, text, res) => {
@@ -14,7 +14,7 @@ const replyMessage = (message, text, res) => {
         console.log(intent)
 
         if (intent && intent.slug === 'weather') {
-           const weatherQuery =  weatherUrl + recastaiRes.entities.hasOwnProperty('location') +  weatherApiKey;
+           const weatherQuery =  weatherUrl + recastaiRes.entities.location +  weatherApiKey;
            console.log("weatherQuery: " + weatherQuery)
             request(weatherQuery, (_err, _res, body) => {
                 body = JSON.parse(body)
@@ -58,4 +58,3 @@ export const bot = (body, response, callback) => {
 
   console.log(" bot out")
 }
-
