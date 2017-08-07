@@ -49,7 +49,7 @@ export const bot = (body, response, callback) => {
     client.connect.handleMessage({ body }, response, replyMessage)
     callback(null, { result: 'Bot answered :)' })
   } else if (body.text) {
-    console.log(" bot " + JSON.stringify(body.text)) + " - body.text")
+    console.log(" bot " + JSON.stringify(body.text) + " - body.text")
     replyMessage(null, body.text, response)
   } else {
     console.log(" bot " + body + " - else")
