@@ -14,6 +14,7 @@ const replyMessage = (message, text, res) => {
         console.log(intent)
 
         if (intent && intent.slug === 'weather') {
+           console.log(" location " + JSON.stringify(recastaiRes.entities.location))
            const weatherQuery =  weatherUrl + recastaiRes.entities.location.valueOf() +  weatherApiKey;
            console.log("weatherQuery: " + weatherQuery)
             request(weatherQuery, (_err, _res, body) => {
