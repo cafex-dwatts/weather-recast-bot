@@ -45,6 +45,12 @@ const replyMessage = (message, text, res) => {
 export const bot = (body, response, callback) => {
   
   console.log(" bot in")
+  console.log(" bot in body: " + JSON.stringify(body))
+    console.log(" bot in body: " + getMethods(body).join("\n"))
+  console.log(" bot in response: " + JSON.stringify(response))
+  console.log(" bot in response: " + getMethods(response).join("\n"))
+  console.log(" bot in callback: " + JSON.stringify(callback))
+  console.log(" bot in callback: " + getMethods(callback).join("\n"))
   if (body.message) {
     console.log(" bot " + JSON.stringify(body.message) + " - body.message")
     client.connect.handleMessage({ body }, response, replyMessage)
@@ -58,4 +64,18 @@ export const bot = (body, response, callback) => {
   }
 
   console.log(" bot out")
+}
+
+function getMethods(obj) {
+  var result = [];
+  for (var id in obj) {
+    try {
+      if (typeof(obj[id]) == "function") {
+        result.push(id + ": " + obj[id].toString());
+      }
+    } catch (err) {
+      result.push(id + ": inaccessible");
+    }
+  }
+  return result;
 }
