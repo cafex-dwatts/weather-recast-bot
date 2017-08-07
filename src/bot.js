@@ -1,4 +1,3 @@
-
 const recastai = require('recastai').default
 const client = new recastai(process.env.REQUEST_TOKEN)
 const request = require('request')
@@ -15,7 +14,9 @@ const replyMessage = (message, text, res) => {
         console.log(intent)
 
         if (intent && intent.slug === 'weather') {
-            request( weatherUrl + recastaiRes.entities.hasOwnProperty('location') +  weatherApiKey, (_err, _res, body) => {
+           const weatherQuery =  weatherUrl + recastaiRes.entities.hasOwnProperty('location') +  weatherApiKey;
+           console.log("weatherQuery: " + weatherQuery)
+            request(weatherQuery, (_err, _res, body) => {
                 body = JSON.parse(body)
                 const content = body.value
 
@@ -41,14 +42,20 @@ const replyMessage = (message, text, res) => {
 }
 
 export const bot = (body, response, callback) => {
-  console.log(body)
-
+  
+  console.log(" bot in")
   if (body.message) {
+    console.log(" bot " + body + " - body.message")
     client.connect.handleMessage({ body }, response, replyMessage)
     callback(null, { result: 'Bot answered :)' })
   } else if (body.text) {
+    console.log(" bot " + body + " - body.text")
     replyMessage(null, body.text, response)
   } else {
+    console.log(" bot " + body + " - else")
     callback('No text provided')
   }
+
+  console.log(" bot out")
 }
+
