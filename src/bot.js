@@ -21,7 +21,7 @@ const replyMessage = (message, text, res) => {
                 body = JSON.parse(body)
                 const content = body.value
                 console.log("response callback " + JSON.stringify(content) + " - content")
-                return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
+                return message ? message.reply({ type: 'text', content }).then() : res.succeed({ reply: content })
             })
         }
 
