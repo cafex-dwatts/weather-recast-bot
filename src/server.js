@@ -24,10 +24,15 @@ app.set('port', process.env.PORT || 5000)
 app.use(bodyParser.json())
 
 // Handle / route
-app.post('/', (request, response) => {
+app.post('/', function (request, response) {
 
   // Call bot main function
-  bot(request.body, response, (error, success) => {
+  bot(request.body, response, function (param1, param2, param3) {
+
+    console.log("bot callback: param1 " + JSON.stringify(param1));
+    console.log("bot callback: param2 " + JSON.stringify(param2));
+    console.log("bot callback: param3 " + JSON.stringify(param3));
+
     if (error) {
       console.log('Error in your bot:', error)
       if (!response.headersSent) { response.sendStatus(400) }
