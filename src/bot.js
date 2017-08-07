@@ -19,7 +19,7 @@ const replyMessage = (message, text, res) => {
             request(weatherQuery, (_err, _res, body) => {
                 body = JSON.parse(body)
                 const content = body.value
-
+                console.log("response callback " + JSON.stringify(content) + " - content")
                 return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
             })
         }
