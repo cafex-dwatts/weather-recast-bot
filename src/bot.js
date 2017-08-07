@@ -2,7 +2,7 @@ const recastai = require('recastai').default
 const client = new recastai(process.env.REQUEST_TOKEN)
 const request = require('request')
 
-const weatherApiKey = "&appid=" = process.env.WEATHER_APIKEY
+const weatherApiKey = "&appid=" + process.env.WEATHER_APIKEY
 const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 
 const replyMessage = (message, text, res) => {
