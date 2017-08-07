@@ -26,6 +26,9 @@ app.use(bodyParser.json())
 // Handle / route
 app.post('/', function (request, response) {
 
+  console.log("post: request " + JSON.stringify(request));
+  console.log("post: response " + JSON.stringify(response));
+
   // Call bot main function
   bot(request.body, response, function (param1, param2, param3) {
 
