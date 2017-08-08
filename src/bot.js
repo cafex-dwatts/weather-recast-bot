@@ -21,15 +21,15 @@ const replyMessage = (message, text, res) => {
            const weatherQuery =  weatherUrl + recastaiRes.entities.location[0].formatted +  weatherApiKey;
            toReturn = concat(toReturn, "weatherQuery: " + weatherQuery) 
             request(weatherQuery, function(_err, _res, body) {
-                toReturn = concat(toReturn, "response callback body" + JSON.stringify(content) + " - content")
+                toReturn = concat(toReturn, "response callback body: " + JSON.stringify(body))
 
                 var bodyObject = JSON.parse(body)
 
-                const content = bodyObject.weather[0].description
-                toReturn = concat(toReturn, "response callback " + JSON.stringify(content) + " - content")
+                const desc = bodyObject.weather[0].description
+                toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
                 toReturn = concat(toReturn, message ? "message true" : "message false")
                 //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
-                return message ? message.reply({ type: 'text', toReturn }).then() : res.send({ reply: toReturn })
+                return message ? message.reply({ type: 'text', toReturn }).then() : res.succeed({ reply: toReturn })
             })
         }
 
