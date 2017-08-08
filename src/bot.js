@@ -10,7 +10,7 @@ const replyMessage = (message, text, res) => {
   console.log(" replyMessage in"); 
   console.log(" replyMessage in message: "  + JSON.stringify(message)); console.log(" replyMessage in message m: " + getMethods(message).join("\n"))
   console.log(" replyMessage in text: "     + JSON.stringify(text));    console.log(" replyMessage in text m: "    + getMethods(text).join("\n"))
-  console.log(" replyMessage in res: "      + JSON.stringify(res));     console.log(" replyMessage in res m: "     + getMethods(res).join("\n"))
+  console.log(" replyMessage in res: "      + JSON.stringify(res));     console.log(" replyMessage in  res m: "     + getMethods(res).join("\n"))
 
     const recastaiReq = new recastai.request(process.env.REQUEST_TOKEN, process.env.LANGUAGE)
     const content = (message ? message.content : text)
