@@ -67,7 +67,9 @@ export const bot = function(request, response, callback) {
 
   if (request.message) {
     request.body = request.message;
-    request.body.message = request.message
+    request.body.message = new Object()
+    request.body.message.attachment = request.message.attachment
+    request.body.message.conversation = request.message.conversation
     console.log(" bot " + JSON.stringify(request.message) + " - request.message")
     client.connect.handleMessage(request, response, replyMessage)
     callback(null, { result: 'Bot answered :)' })
