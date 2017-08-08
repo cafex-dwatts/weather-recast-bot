@@ -9,24 +9,27 @@ const replyMessage = (message, text, res) => {
     const recastaiReq = new recastai.request(process.env.REQUEST_TOKEN, process.env.LANGUAGE)
     const content = (message ? message.content : text)
 
+    toReturn = ""
+
     recastaiReq.analyseText(content).then(recastaiRes => {
         const intent = recastaiRes.intent()
-        console.log(intent)
+        toReturn = concat(toReturn, intent)
 
         if (intent && intent.slug === 'weather') {
-           console.log(" location " + JSON.stringify(recastaiRes.entities.location))
+           toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
            const weatherQuery =  weatherUrl + recastaiRes.entities.location[0].formatted +  weatherApiKey;
-           console.log("weatherQuery: " + weatherQuery) 
+           toReturn = concat(toReturn, "weatherQuery: " + weatherQuery) 
             request(weatherQuery, function(_err, _res, body) {
-                console.log("response callback body" + JSON.stringify(content) + " - content")
+                toReturn = concat(toReturn, "response callback body" + JSON.stringify(content) + " - content")
 
                 bodyObject = JSON.parse(body)
 
                 
                 const content = bodyObject.weather[0].description
-                console.log("response callback " + JSON.stringify(content) + " - content")
-                console.log(message ? "message true" : "message false")
-                return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
+                toReturn = concat(toReturn, "response callback " + JSON.stringify(content) + " - content")
+                toReturn = concat(toReturn, message ? "message true" : "message false")
+                //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
+                return message ? message.reply({ type: 'text', toReturn }).then() : res.send({ reply: toReturn })
             })
         }
 
@@ -69,6 +72,11 @@ export const bot = (body, response, callback) => {
   }
 
   console.log(" bot out")
+}
+
+function concat(head, tail) {
+  console.log(tail);
+  return head + "\n" + tail;
 }
 
 function getMethods(obj) {
