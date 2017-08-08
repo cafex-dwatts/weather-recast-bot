@@ -58,9 +58,9 @@ const replyMessage = (message, text, res) => {
     })
 }
 
-export const bot = (request, response, callback) => {
+export const bot = function(request, response, callback) {
   
-  var body  request.body
+  var body = request.body
 
   console.log(" bot in"); console.log(" bot in body: " + JSON.stringify(body))
     console.log(" bot in body: " + getMethods(body).join("\n"))
