@@ -8,11 +8,12 @@ const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 const replyMessage = (message, text, res) => {
     const recastaiReq = new recastai.request(process.env.REQUEST_TOKEN, process.env.LANGUAGE)
     const content = (message ? message.content : text)
-
-    toReturn = ""
-
+  
     recastaiReq.analyseText(content).then(recastaiRes => {
         const intent = recastaiRes.intent()
+
+        var toReturn = ""
+
         toReturn = concat(toReturn, intent)
 
         if (intent && intent.slug === 'weather') {
