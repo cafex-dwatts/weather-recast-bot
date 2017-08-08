@@ -30,7 +30,7 @@ app.post('/', function (request, response) {
 })
 
 if (!process.env.REQUEST_TOKEN.length) {
-  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty ! You must fill this field with the request_token of your bot before launching your bot locally')
+  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty! You must fill this field with the request_token of your bot before launching your bot locally')
 
   process.exit(0)
 } else {
@@ -45,7 +45,7 @@ function handlePost(request, response) {
   console.log("post: response " + JSON.stringify(response));
 
   // Call bot main function
-  bot(request.body, response, function (param1, param2, param3) {
+  bot(request, response, function (param1, param2, param3) {
 
     console.log("bot callback: param1 " + JSON.stringify(param1));
     console.log("bot callback: param2 " + JSON.stringify(param2));
