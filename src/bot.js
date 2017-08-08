@@ -31,8 +31,8 @@ const replyMessage = (message, text, res) => {
                 //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
               //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
                 if(message) {
-                    message.addReply({ type: 'text', desc })
-                    message.reply();
+                    //message.addReply({ type: 'text', desc })
+                    message.reply({ type: 'text', content });
                     return
                 } else {
                   return res.succeed({ reply: desc })
