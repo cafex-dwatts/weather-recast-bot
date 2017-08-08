@@ -23,9 +23,8 @@ const replyMessage = (message, text, res) => {
             request(weatherQuery, function(_err, _res, body) {
                 toReturn = concat(toReturn, "response callback body" + JSON.stringify(content) + " - content")
 
-                bodyObject = JSON.parse(body)
+                var bodyObject = JSON.parse(body)
 
-                
                 const content = bodyObject.weather[0].description
                 toReturn = concat(toReturn, "response callback " + JSON.stringify(content) + " - content")
                 toReturn = concat(toReturn, message ? "message true" : "message false")
