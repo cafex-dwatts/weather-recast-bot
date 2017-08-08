@@ -29,7 +29,7 @@ const replyMessage = (message, text, res) => {
                 toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
                 toReturn = concat(toReturn, message ? "message true" : "message false")
                 //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
-                return message ? message.reply({ type: 'text', toReturn }).then() : res.succeed({ reply: desc })
+                return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
             })
         }
 
