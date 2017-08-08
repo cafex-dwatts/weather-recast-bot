@@ -26,6 +26,21 @@ app.use(bodyParser.json())
 // Handle / route
 app.post('/', function (request, response) {
 
+  handlePost(request, response);
+})
+
+if (!process.env.REQUEST_TOKEN.length) {
+  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty ! You must fill this field with the request_token of your bot before launching your bot locally')
+
+  process.exit(0)
+} else {
+  // Run Express server, on right port
+  app.listen(app.get('port'), function() {
+    console.log('Our bot is running on port', app.get('port'))
+  })
+}
+
+function handlePost(request, response) {
   console.log("post: request " + JSON.stringify(request));
   console.log("post: response " + JSON.stringify(response));
 
@@ -44,16 +59,9 @@ app.post('/', function (request, response) {
       if (!response.headersSent) { response.status(200).json(success) }
     }
   })
-
-})
-
-if (!process.env.REQUEST_TOKEN.length) {
-  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty ! You must fill this field with the request_token of your bot before launching your bot locally')
-
-  process.exit(0)
-} else {
-  // Run Express server, on right port
-  app.listen(app.get('port'), () => {
-    console.log('Our bot is running on port', app.get('port'))
-  })
 }
+
+function onMessage (message) {
+
+
+  }

@@ -29,7 +29,16 @@ const replyMessage = (message, text, res) => {
                 toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
                 toReturn = concat(toReturn, message ? "message true" : "message false")
                 //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
-                return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
+              //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
+                if(message) {
+                    message.addReply({ type: 'text', desc })
+                    message.reply();
+                    return
+                } else {
+                  return res.succeed({ reply: desc })
+                }
+
+                
             })
         }
 
@@ -52,13 +61,12 @@ const replyMessage = (message, text, res) => {
 
 export const bot = (body, response, callback) => {
   
-  console.log(" bot in")
-  console.log(" bot in body: " + JSON.stringify(body))
+  console.log(" bot in"); console.log(" bot in body: " + JSON.stringify(body))
     console.log(" bot in body: " + getMethods(body).join("\n"))
-  console.log(" bot in response: " + JSON.stringify(response))
-  console.log(" bot in response: " + getMethods(response).join("\n"))
-  console.log(" bot in callback: " + JSON.stringify(callback))
-  console.log(" bot in callback: " + getMethods(callback).join("\n"))
+  console.log(" bot in response: " + JSON.stringify(response)); console.log(" bot in response: " + getMethods(response).join("\n"))
+  console.log(" bot in callback: " + JSON.stringify(callback)); console.log(" bot in callback: " + getMethods(callback).join("\n"))
+
+
   if (body.message) {
     console.log(" bot " + JSON.stringify(body.message) + " - body.message")
     client.connect.handleMessage({ body }, response, replyMessage)
