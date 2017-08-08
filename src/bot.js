@@ -14,14 +14,14 @@ const replyMessage = (message, text, res) => {
 
         var toReturn = ""
 
-        toReturn = concat(toReturn, intent)
+        toReturn = concat(toReturn, JSON.stringify(intent));
 
         if (intent && intent.slug === 'weather') {
            toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
            const weatherQuery =  weatherUrl + recastaiRes.entities.location[0].formatted +  weatherApiKey;
            toReturn = concat(toReturn, "weatherQuery: " + weatherQuery) 
             request(weatherQuery, function(_err, _res, body) {
-                toReturn = concat(toReturn, "response callback body: " + JSON.stringify(body))
+               toReturn = concat(toReturn, "response callback body: " + JSON.stringify(body))
 
                 var bodyObject = JSON.parse(body)
 
@@ -29,7 +29,7 @@ const replyMessage = (message, text, res) => {
                 toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
                 toReturn = concat(toReturn, message ? "message true" : "message false")
                 //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
-                return message ? message.reply({ type: 'text', toReturn }).then() : res.succeed({ reply: toReturn })
+                return message ? message.reply({ type: 'text', toReturn }).then() : res.succeed({ reply: desc })
             })
         }
 
