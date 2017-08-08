@@ -18,12 +18,15 @@ const replyMessage = (message, text, res) => {
            const weatherQuery =  weatherUrl + recastaiRes.entities.location[0].formatted +  weatherApiKey;
            console.log("weatherQuery: " + weatherQuery) 
             request(weatherQuery, function(_err, _res, body) {
-                body = JSON.parse(body)
+                console.log("response callback body" + JSON.stringify(content) + " - content")
+
+                bodyObject = JSON.parse(body)
 
                 
-                const content = body.weather[0].description
+                const content = bodyObject.weather[0].description
                 console.log("response callback " + JSON.stringify(content) + " - content")
-                return message ? message.reply({ type: 'text', content }).then() : res.succeed({ reply: content })
+                console.log(message ? "message true" : "message false")
+                return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
             })
         }
 
