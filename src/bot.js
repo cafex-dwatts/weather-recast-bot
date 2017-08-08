@@ -60,23 +60,20 @@ const replyMessage = (message, text, res) => {
 
 export const bot = function(request, response, callback) {
   
-  var theReqBody = request.body;
-
   console.log(" bot in"); 
   console.log(" bot in request: "  + JSON.stringify(request));    console.log(" bot in request m: "    + getMethods(request).join("\n"))
-  console.log(" bot in body: "     + JSON.stringify(theReqBody)); console.log(" bot in theReqBody m: " + getMethods(body).join("\n"))
   console.log(" bot in response: " + JSON.stringify(response));   console.log(" bot in response m: "   + getMethods(response).join("\n"))
   console.log(" bot in callback: " + JSON.stringify(callback));   console.log(" bot in callback m: "   + getMethods(callback).join("\n"))
 
-  if (theReqBody.message) {
-    console.log(" bot " + JSON.stringify(theReqBody.message) + " - theReqBody.message")
+  if (request.message) {
+    console.log(" bot " + JSON.stringify(request.message) + " - request.message")
     client.connect.handleMessage(request, response, replyMessage)
     callback(null, { result: 'Bot answered :)' })
-  } else if (theReqBody.text) {
-    console.log(" bot " + JSON.stringify(theReqBody.text) + " - theReqBody.text")
-    replyMessage(null, theReqBody.text, response)
+  } else if (request.text) {
+    console.log(" bot " + JSON.stringify(request.text) + " - request.text")
+    replyMessage(null, request.text, response)
   } else {
-    console.log(" bot " + theReqBody + " - else")
+    console.log(" bot " + request + " - else")
     callback('No text provided')
   }
 
