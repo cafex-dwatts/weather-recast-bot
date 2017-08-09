@@ -7,61 +7,97 @@ const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 
 const replyMessage = (message, text, res) => {
 
-  console.log(" replyMessage in"); 
-  console.log(" replyMessage in message: "  + JSON.stringify(message)); console.log(" replyMessage in message m: " + getMethods(message).join("\n"))
-  console.log(" replyMessage in text: "     + JSON.stringify(text));    console.log(" replyMessage in text m: "    + getMethods(text).join("\n"))
-  console.log(" replyMessage in res: "      + JSON.stringify(res));     console.log(" replyMessage in  res m: "     + getMethods(res).join("\n"))
+    console.log(" replyMessage in"); 
+    console.log(" replyMessage in message: "  + JSON.stringify(message)); console.log(" replyMessage in message m: " + getMethods(message).join("\n"))
+    console.log(" replyMessage in text: "     + JSON.stringify(text));    console.log(" replyMessage in text m: "    + getMethods(text).join("\n"))
+    console.log(" replyMessage in res: "      + JSON.stringify(res));     console.log(" replyMessage in  res m: "     + getMethods(res).join("\n"))
 
     const recastaiReq = new recastai.request(process.env.REQUEST_TOKEN, process.env.LANGUAGE)
     const content = (message ? message.content : text)
   
-    recastaiReq.analyseText(content).then(recastaiRes => {
-        const intent = recastaiRes.intent()
+    if(message) {
+      // Request came in via the bot connector
 
-        var toReturn = ""
+      recastaiReq.converseText(content, { conversationToken: senderId }).then(converseResult => {
 
-        toReturn = concat(toReturn, JSON.stringify(intent));
 
-        if (intent && intent.slug === 'weather') {
-           toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
-           const weatherQuery =  weatherUrl + recastaiRes.entities.location[0].formatted +  weatherApiKey;
-           toReturn = concat(toReturn, "weatherQuery: " + weatherQuery) 
-            request(weatherQuery, function(_err, _res, body) {
-               toReturn = concat(toReturn, "response callback body: " + JSON.stringify(body))
+          const intent = converseResult.intent()
 
-                var bodyObject = JSON.parse(body)
+          var toReturn = ""
 
-                const desc = bodyObject.weather[0].description
-                toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
-                toReturn = concat(toReturn, message ? "message true" : "message false")
-                //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
-              //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
-                if(message) {
-                    message.reply({ type: 'text', content });
-                    return
-                } else {
-                  return res.succeed({ reply: desc })
-                }
+          toReturn = concat(toReturn, JSON.stringify(intent));
+ 
+          if (intent && intent.slug === 'weather') {
+              toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
+           
+              makeWeatherRequest(converseResult.entities.location[0].formatted, function(_err, _res, body) {
+                  toReturn = concat(toReturn, "http response callback body: " + JSON.stringify(body))
 
-                
-            })
-        }
+                  var bodyObject = JSON.parse(body)
 
-        if (intent && intent.slug === 'greetings') {
-            const reply = {
-                type: 'quickReplies',
-                content: {
-                    title: 'Hi! What can I do for you?',
-                    buttons: [
-                        { title: 'Chuck Norris fact', value: 'Tell me a joke' },
-                        { title: 'Goodbye', value: 'Goodbye' },
-                    ],
-                },
-            }
+                  const desc = bodyObject.weather[0].description
+                  toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
+                  toReturn = concat(toReturn, message ? "message true" : "message false")
+                  //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
+                  //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
+                 
+                  converseResult.replies.push({ type: 'text', "weather is " + desc })
+                  wrapUp(message, converseResult)
+                  // message.reply({ type: 'text', content });
+                  return
+              })
+          }
+      })
+    } else {
+      // HTTP request
+      return res.succeed({ reply: "http req response string" })
+    }
 
-            return message ? message.reply([reply]) : res.json({ reply: 'Hi, what can I do for you? :-)' })
-        }
-    })
+    // recastaiReq.analyseText(content).then(recastaiRes => {
+    //     const intent = recastaiRes.intent()
+
+    //     var toReturn = ""
+
+        // toReturn = concat(toReturn, JSON.stringify(intent));
+
+        // if (intent && intent.slug === 'weather') {
+        //    toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
+           
+        //    makeWeatherRequest(recastaiRes.entities.location[0].formatted, function(_err, _res, body) {
+        //        toReturn = concat(toReturn, "http response callback body: " + JSON.stringify(body))
+
+        //        var bodyObject = JSON.parse(body)
+
+        //         const desc = bodyObject.weather[0].description
+        //         toReturn = concat(toReturn, "response callback desc" + JSON.stringify(desc))
+        //         toReturn = concat(toReturn, message ? "message true" : "message false")
+        //         //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
+        //       //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
+        //         if(message) {
+        //             message.reply({ type: 'text', content });
+        //             return
+        //         } else {
+        //           return res.succeed({ reply: desc })
+        //         }
+        //     })
+           
+        // }
+
+        // if (intent && intent.slug === 'greetings') {
+        //     const reply = {
+        //         type: 'quickReplies',
+        //         content: {
+        //             title: 'Hi! What can I do for you?',
+        //             buttons: [
+        //                 { title: 'Chuck Norris fact', value: 'Tell me a joke' },
+        //                 { title: 'Goodbye', value: 'Goodbye' },
+        //             ],
+        //         },
+        //     }
+
+        //     return message ? message.reply([reply]) : res.json({ reply: 'Hi, what can I do for you? :-)' })
+        // }
+    //})
 }
 
 export const bot = function(request, response, callback) {
@@ -107,4 +143,31 @@ function getMethods(obj) {
     }
   }
   return result;
+}
+
+function makeWeatherRequest(location, callback) {
+    const weatherQuery =  weatherUrl + location +  weatherApiKey;
+    concat("", "weatherQuery: " + weatherQuery) 
+          
+    request(weatherQuery, callback)
+}
+
+function wrapUp(message, result) {
+    if (result.action) {
+        console.log('The conversation action is: ', result.action.slug)
+    }
+
+    // If there is not any message return by Recast.AI for this current conversation
+    if (!result.replies.length) {
+        message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
+    } else {
+        // Add each reply received from API to replies stack
+        result.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
+    }
+
+    // Send all replies
+    message.reply().then(() => {
+        // Do some code after sending messages
+        console.log("after sending messages")
+    })
 }

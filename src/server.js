@@ -19,18 +19,17 @@ require('./config')
 const bot = require('./bot').bot
 
 // Start Express server
-const app = express()
-app.set('port', process.env.PORT || 5000)
-app.use(bodyParser.json())
+const app = express()                     // Express web server instance
+app.set('port', process.env.PORT || 5000) // listen on 5000 unless overridden
+app.use(bodyParser.json())                // JSON body expected
 
 // Handle / route
 app.post('/', function (request, response) {
-
   handlePost(request, response);
 })
 
 if (!process.env.REQUEST_TOKEN.length) {
-  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty! You must fill this field with the request_token of your bot before launching your bot locally')
+  console.log('ERROR: process.env.REQUEST_TOKEN variable in src/config.js file is empty ! You must fill this field with the request_token of your bot before launching your bot locally')
 
   process.exit(0)
 } else {
