@@ -158,18 +158,18 @@ function makeWeatherRequest(location, callback) {
 
 function wrapUp(message, result) {
     if (result.action) {
-        console.log('wrapup: The conversation action is: ', result.action.slug)
+        console.log('wrapUp: The conversation action is: ', result.action.slug)
     } else {
-      console.log('wrapup: No conversation action set')
+      console.log('wrapUp: No conversation action set')
     }
 
     // If there is not any message return by Recast.AI for this current conversation
     if (!result.replies.length) {
-        console.log('wrapup: no replies')
+        console.log('wrapUp: no replies')
         message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
     } else {
         // Add each reply received from API to replies stack
-        console.log('wrapup: adding replies: ' + result.replies.length)
+        console.log('wrapUp: adding replies: ' + result.replies.length)
         result.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
     }
 
