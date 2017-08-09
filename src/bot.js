@@ -159,6 +159,8 @@ function makeWeatherRequest(location, callback) {
 function wrapUp(message, result) {
     if (result.action) {
         console.log('The conversation action is: ', result.action.slug)
+    } else {
+      console.log('No conversation action set')
     }
 
     // If there is not any message return by Recast.AI for this current conversation
