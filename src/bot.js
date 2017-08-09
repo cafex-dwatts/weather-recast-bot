@@ -170,7 +170,10 @@ function wrapUp(message, result) {
     } else {
         // Add each reply received from API to replies stack
         console.log('wrapUp: adding replies: ' + result.replies.length)
-        result.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
+        result.replies.forEach(replyContent => {
+          console.log('wrapUp: adding reply: ' + JSON.stringify(replyContent))
+          message.addReply({ type: 'text', content: replyContent })
+          })
     }
 
     // Send all replies
