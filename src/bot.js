@@ -5,7 +5,7 @@ const request = require('request')
 const weatherApiKey = "&appid=" + process.env.WEATHER_APIKEY
 const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 
-const replyMessage = (message, text, res) => {
+const replyMessage = function(message, text, res) {
 
     console.log(" replyMessage in"); 
     console.log(" replyMessage in message: "  + JSON.stringify(message)); console.log(" replyMessage in message m: " + getMethods(message).join("\n"))
