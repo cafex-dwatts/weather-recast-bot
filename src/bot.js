@@ -25,7 +25,7 @@ const replyMessage = function(message, text, res) {
 
           console.log("converseText callback in cr: "      + JSON.stringify(converseResult));     console.log(" converseText callback in  cr m: "     + getMethods(converseResult).join("\n"))
 
-          const intent = converseResult.intent()
+          const intent = converseResult.intents[0]
 
           var toReturn = ""
 
