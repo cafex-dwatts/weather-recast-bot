@@ -170,8 +170,5 @@ function wrapUp(message, result) {
     }
 
     // Send all replies
-    message.reply().then(() => {
-        // Do some code after sending messages
-        console.log("after sending messages")
-    })
+    message.reply();
 }
