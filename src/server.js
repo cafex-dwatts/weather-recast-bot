@@ -39,16 +39,15 @@ if (!process.env.REQUEST_TOKEN.length) {
   })
 }
 
-function handlePost(request, response) {
+function handlePost (request, response) {
   console.log("post: request " + JSON.stringify(request));
   console.log("post: response " + JSON.stringify(response));
 
   // Call bot main function
-  bot(request, response, function (param1, param2, param3) {
+  bot(request, response, function (error, success) {
 
-    console.log("bot callback: param1 " + JSON.stringify(param1));
-    console.log("bot callback: param2 " + JSON.stringify(param2));
-    console.log("bot callback: param3 " + JSON.stringify(param3));
+    console.log("bot callback: error " + JSON.stringify(error));
+    console.log("bot callback: success " + JSON.stringify(success));
 
     if (error) {
       console.log('Error in your bot:', error)
