@@ -45,7 +45,7 @@ const replyMessage = function(message, text, res) {
                   //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
                   //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
                  
-                  converseResult.replies.push({ type: 'text', desc })
+                  converseResult.replies.push(desc)
                   wrapUp(message, converseResult)
                   // message.reply({ type: 'text', content });
                   return
@@ -177,5 +177,7 @@ function wrapUp(message, result) {
     }
 
     // Send all replies
-    message.reply();
+    message.reply().catch(err => {
+      console.error('Error while sending message to channel', err)
+    });
 }
