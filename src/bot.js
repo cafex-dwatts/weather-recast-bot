@@ -29,10 +29,10 @@ const replyMessage = function(message, text, res) {
 
           var toReturn = ""
 
-          toReturn = concat(toReturn, JSON.stringify(intent));
+          console.log("intent", JSON.stringify(intent));
  
           if (intent && intent.slug === 'weather') {
-              toReturn = concat(toReturn, " location " + JSON.stringify(recastaiRes.entities.location))
+              toReturn = concat(toReturn, " location " + JSON.stringify(converseResult.entities.location))
            
               makeWeatherRequest(converseResult.entities.location[0].formatted, function(_err, _res, body) {
                   toReturn = concat(toReturn, "http response callback body: " + JSON.stringify(body))
