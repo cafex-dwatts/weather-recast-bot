@@ -179,5 +179,5 @@ function wrapUp(message, result) {
     // Send all replies
     message.reply().catch(err => {
       console.error('Error while sending message to channel', err)
-    });
+    }); 
 }
