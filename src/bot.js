@@ -173,7 +173,7 @@ function wrapUp(message, result) {
         result.replies.forEach(replyContent => {
           console.log('wrapUp: adding reply: ' + JSON.stringify(replyContent))
           message.addReply({ type: 'text', content: replyContent })
-          })
+          }) 
     }
 
     // Send all replies
