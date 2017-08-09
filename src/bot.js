@@ -12,6 +12,9 @@ const replyMessage = function(message, text, res) {
     console.log(" replyMessage in text: "     + JSON.stringify(text));    console.log(" replyMessage in text m: "    + getMethods(text).join("\n"))
     console.log(" replyMessage in res: "      + JSON.stringify(res));     console.log(" replyMessage in  res m: "     + getMethods(res).join("\n"))
 
+    // Get senderId to catch unique conversation_token
+    const senderId = message.senderId
+
     const recastaiReq = new recastai.request(process.env.REQUEST_TOKEN, process.env.LANGUAGE)
     const content = (message ? message.content : text)
   
