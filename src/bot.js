@@ -41,7 +41,7 @@ const replyMessage = function(message, text, res) {
                   //return message ? message.reply({ type: 'text', content }).then() : res.send({ reply: content })
                   //return message ? message.reply({ type: 'text', desc }).then() : res.succeed({ reply: desc })
                  
-                  converseResult.replies.push({ type: 'text', "weather is " + desc })
+                  converseResult.replies.push({ type: 'text', desc })
                   wrapUp(message, converseResult)
                   // message.reply({ type: 'text', content });
                   return
